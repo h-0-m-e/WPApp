@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_main"
+    app:startDestination="@id/categoriesFragment">
+
+    <fragment
+        android:id="@+id/categoriesFragment"
+        android:name="com.h0me.wallpapers.activity.CategoriesFragment"
+        android:label="CategoriesFragment" >
+        <action
+            android:id="@+id/action_categoriesFragment_to_imagesFragment"
+            app:destination="@id/imagesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/imagesFragment"
+        android:name="com.h0me.wallpapers.activity.ImagesFragment"
+        android:label="ImagesFragment" >
+        <action
+            android:id="@+id/action_imagesFragment_to_imagePreviewFragment"
+            app:destination="@id/imagePreviewFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.h0me.wallpapers.activity.SettingsFragment"
+        android:label="SettingsFragment" />
+    <fragment
+        android:id="@+id/imagePreviewFragment"
+        android:name="com.h0me.wallpapers.activity.ImagePreviewFragment"
+        android:label="ImagePreviewFragment" />
+    <fragment
+        android:id="@+id/downloadedFragment"
+        android:name="com.h0me.wallpapers.activity.DownloadedFragment"
+        android:label="DownloadedFragment" />
+    <fragment
+        android:id="@+id/favouriteFragment"
+        android:name="com.h0me.wallpapers.activity.FavouriteFragment"
+        android:label="FavouriteFragment" />
+</navigation>

@@ -36,20 +36,20 @@ class CategoriesFragment : Fragment() {
     }
 
     private val queries = listOf(
-//            "sky,phone,wallpaper",
-//            "forest,phone,wallpaper",
-//            "ocean,phone,wallpaper",
-//            "city,phone,wallpaper",
-//            "dogs,phone,wallpaper",
-//            "cats,phone,wallpaper",
-//            "mountains,phone,wallpaper",
-//            "space,phone,wallpaper",
-//            "village,phone,wallpaper",
-//            "cyberpunk,phone,wallpaper",
-//            "retro,phone,wallpaper",
-//            "cars,phone,wallpaper",
-//            "fish,phone,wallpaper",
-//            "abstract,phone,wallpaper",
+        "sky,phone,wallpaper",
+        "forest,phone,wallpaper",
+        "ocean,phone,wallpaper",
+        "city,phone,wallpaper",
+        "dogs,phone,wallpaper",
+        "cats,phone,wallpaper",
+        "mountains,phone,wallpaper",
+        "space,phone,wallpaper",
+        "village,phone,wallpaper",
+        "cyberpunk,phone,wallpaper",
+        "retro,phone,wallpaper",
+        "cars,phone,wallpaper",
+        "fish,phone,wallpaper",
+        "abstract,phone,wallpaper",
         "neon,phone,wallpaper"
     )
 

@@ -14,7 +14,7 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 import java.util.concurrent.TimeUnit
 
-private const val BASE_URL = BuildConfig.BASE_URL
+private const val BASE_URL = "https://api.unsplash.com/"
 
 private val client = OkHttpClient.Builder()
     .connectTimeout(30, TimeUnit.SECONDS)
@@ -27,9 +27,12 @@ private val client = OkHttpClient.Builder()
             this
         }
     }
-    .addInterceptor(Interceptor {chain: Interceptor.Chain ->
+    .addInterceptor(Interceptor { chain: Interceptor.Chain ->
         val request = chain.request().newBuilder()
-            .addHeader("Authorization","Client-ID " + "_tHJk9yse_q1G3KnrhUaufVOnUtZsIKyv7QXPMAdEJo")
+            .addHeader(
+                "Authorization",
+                "Client-ID " + "_tHJk9yse_q1G3KnrhUaufVOnUtZsIKyv7QXPMAdEJo"
+            )
             .build()
         chain.proceed(request)
     })
@@ -45,7 +48,10 @@ interface ApiService {
 
 
     @GET("search/photos")
-    suspend fun getCollection( @Query ("query") query: String, @Query ("per_page") per_page: Int): Response<PhotoCollection>
+    suspend fun getCollection(
+        @Query("query") query: String,
+        @Query("per_page") per_page: Int
+    ): Response<PhotoCollection>
 }
 
 object Api {

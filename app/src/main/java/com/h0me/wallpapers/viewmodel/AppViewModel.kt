@@ -2,24 +2,29 @@ package com.h0me.wallpapers.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.h0me.wallpapers.data.CategoriesData
-import com.h0me.wallpapers.data.PhotosData
 import com.h0me.wallpapers.db.AppDb
 import com.h0me.wallpapers.model.Photo
 import com.h0me.wallpapers.repository.RepositoryImpl
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class AppViewModel(application: Application): AndroidViewModel(application) {
+class AppViewModel(application: Application) : AndroidViewModel(application) {
     private val repository = RepositoryImpl(
         AppDb.getInstance(application).photoDao()
     )
 
-    val dataPhotos = MutableLiveData<PhotosData>()
+    private val _dataPhotos = MutableLiveData<List<Photo>>()
+    val dataPhotos: LiveData<List<Photo>>
+        get() = _dataPhotos
+
     val dataCategories = MutableLiveData<CategoriesData>()
-    val dataFavourite = repository.favouriteData
-    val dataDownloaded = repository.downloadedData
+    val dataFavourite = repository.favouriteData.asLiveData(Dispatchers.Default)
+    val dataDownloaded = repository.downloadedData.asLiveData(Dispatchers.Default)
 
     fun getCollections(queriesList: List<String>) = viewModelScope.launch {
         try {
@@ -27,53 +32,29 @@ class AppViewModel(application: Application): AndroidViewModel(application) {
         } catch (e: Exception) {
             e.printStackTrace()
         }
-
     }
 
-    fun getPhotos(collectionTitle: String) {
+    fun getCollection(collectionTitle: String) = viewModelScope.launch {
         try {
-            dataPhotos.value = PhotosData(requireNotNull(repository.getPhotosFromCollection(collectionTitle)))
+            _dataPhotos.value = repository.getCollection(collectionTitle)
         } catch (e: Exception) {
             e.printStackTrace()
         }
-
     }
 
-//    fun getFavourite(collectionTitle: String) {
-//        try {
-//            dataFavourite. = repository.favouriteData
-//        } catch (e: Exception) {
-//            e.printStackTrace()
-//        }
-//
-//    }
-
-    fun addFavourite(photo: Photo) = viewModelScope.launch {
+    fun clickFavourite(photo: Photo) = viewModelScope.launch {
         try {
-            repository.addFavourite(photo)
+            repository.clickFavourite(photo)
         } catch (e: Exception) {
             e.printStackTrace()
         }
-
     }
 
-//    fun getDownloaded(collectionTitle: String) {
-//        try {
-//            dataPhotos.value = PhotosData(requireNotNull(repository.getPhotosFromCollection(collectionTitle)))
-//        } catch (e: Exception) {
-//            e.printStackTrace()
-//        }
-//
-//    }
-
-    fun addDownloaded(photo: Photo) = viewModelScope.launch {
+    fun clickDownload(photo: Photo) = viewModelScope.launch {
         try {
-            repository.addDownloaded(photo)
+            repository.clickDownload(photo)
         } catch (e: Exception) {
             e.printStackTrace()
         }
-
     }
-
-
 }

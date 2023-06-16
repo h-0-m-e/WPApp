@@ -15,7 +15,8 @@ class CollectionAdapter(
 ) : ListAdapter<PhotoCollection, CollectionViewHolder>(CollectionDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CollectionViewHolder {
-        val binding = CardCollectionBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            CardCollectionBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return CollectionViewHolder(binding, onInteractionListener)
     }
 
@@ -30,14 +31,9 @@ class CollectionViewHolder(
     private val onInteractionListener: OnInteractionListener
 ) : RecyclerView.ViewHolder(binding.root) {
 
-
-
-    val urlImage = "https://zamanilka.ru/wp-content/uploads/2021/02/blue-wallpaper-phone-1080x1920-20.jpg"
-
     fun bind(collection: PhotoCollection) {
         binding.apply {
             title.text = collection.title
-            count.text = collection.total
             preview.loadCircle(collection.results.first().url.regular)
 
             root.setOnClickListener {

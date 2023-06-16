@@ -1,8 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Wallpapers</string>
+    <string name="categories_fragment">Фрагмент категорий</string>
+    <string name="photos_fragment">Фрагмент изображений</string>
+    <string name="favourite_fragment">Фрагмент избранного</string>
+    <string name="downloaded_fragment">Фрагмент сохраненного</string>
+    <string name="settings_fragment">Фрагмент настроек</string>
+    <string name="image_description">Изображение</string>
     <string name="categories">Категории</string>
     <string name="favourite">Избранное</string>
     <string name="downloaded">Сохраненные</string>
     <string name="settings">Настройки</string>
+    <string name="dark_mode">Темный режим</string>
+    <string name="is_empty_text">Здесь пока ничего нет:(</string>
+    <string name="set_button">Установить</string>
+    <string name="photo_preview_fragment">Фрагмент просмотра изображения</string>
+    <string name="set_wallpaper_msg">Обои устанавливаются…</string>
 </resources>

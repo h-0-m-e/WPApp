@@ -1,25 +1,23 @@
 package com.h0me.wallpapers.repository
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.map
 import com.h0me.wallpapers.api.Api
 import com.h0me.wallpapers.dao.PhotoDao
-import com.h0me.wallpapers.db.AppDb
 import com.h0me.wallpapers.entity.PhotoEntity
 import com.h0me.wallpapers.entity.toEntity
 import com.h0me.wallpapers.model.Photo
 import com.h0me.wallpapers.model.PhotoCollection
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import retrofit2.Response
 
 
 class RepositoryImpl(private val dao: PhotoDao) {
 
-    val favouriteData: LiveData<List<Photo>> =
+    val favouriteData: Flow<List<Photo>> =
         dao.getAllFavourite().map { it.map(PhotoEntity::toDto) }
 
-    val downloadedData: LiveData<List<Photo>> =
-    dao.getAllDownloaded().map { it.map(PhotoEntity::toDto) }
+    val downloadedData: Flow<List<Photo>> =
+        dao.getAllDownloaded().map { it.map(PhotoEntity::toDto) }
 
     private val collectionsData = mutableListOf<PhotoCollection>()
 
@@ -30,6 +28,17 @@ class RepositoryImpl(private val dao: PhotoDao) {
                 if (!response.isSuccessful) {
                     throw Exception(response.message())
                 } else {
+                    val collection = (requireNotNull(response.body()?.results).map {
+                        toEntity(
+                            it,
+                            favourite = false,
+                            downloaded = false,
+                            query.split(",").first()
+                        )
+                    })
+                    for (photo in collection) {
+                        dao.insert(photo)
+                    }
                     saveCollection(query, response)
                 }
             }
@@ -38,6 +47,15 @@ class RepositoryImpl(private val dao: PhotoDao) {
         }
 
         return collectionsData
+    }
+
+    suspend fun getCollection(collectionTitle: String): List<Photo> {
+        return try {
+            dao.getCollection(collectionTitle).map { it.toDto() }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            emptyList()
+        }
     }
 
     private fun saveCollection(query: String, response: Response<PhotoCollection>) {
@@ -50,40 +68,17 @@ class RepositoryImpl(private val dao: PhotoDao) {
         }
     }
 
-    fun getPhotosFromCollection(collectionTitle: String): List<Photo>? {
-        val currentCollection = collectionsData.find { it.title == collectionTitle }
-        return currentCollection?.results
+    suspend fun clickFavourite(photo: Photo) {
+        if (!photo.isFavourite) {
+            dao.setFavouriteByRegularUrl(photo.url.regular)
+        } else {
+            dao.unsetFavouriteByRegularUrl(photo.url.regular)
+        }
     }
 
-     suspend fun addFavourite(photo: Photo) {
-         if (!photo.isFavourite) {
-             dao.insert(photo.toEntity(photo, true, photo.isDownloaded))
-         }else{
-             dao.removeByRegularUrl(photo.url.regular)
-         }
-    }
-
-    suspend fun addDownloaded(photo: Photo) {
+    suspend fun clickDownload(photo: Photo) {
         if (!photo.isDownloaded) {
-            dao.insert(photo.toEntity(photo,photo.isFavourite, true))
-        }else{
-            dao.removeByRegularUrl(photo.url.regular)
+            dao.setDownloadedByRegularUrl(photo.url.regular)
         }
     }
-
-    suspend fun isFavouriteEmpty(): Boolean {
-        return when(dao.favouriteCount()){
-            0 -> true
-            else -> false
-        }
-    }
-
-    suspend fun isDownloadedEmpty(): Boolean {
-        return when(dao.downloadedCount()){
-            0 -> true
-            else -> false
-        }
-    }
-
-
 }

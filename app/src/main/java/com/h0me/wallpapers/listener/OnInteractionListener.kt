@@ -8,4 +8,8 @@ interface OnInteractionListener {
     fun onOpenCollection(collection: PhotoCollection) {}
 
     fun onOpenPhoto(photo: Photo) {}
+
+    fun onClickFavourite(photo: Photo) {}
+
+    fun onClickDownload(photo: Photo) {}
 }

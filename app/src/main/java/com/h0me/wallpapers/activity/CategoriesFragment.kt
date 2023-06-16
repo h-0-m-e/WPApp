@@ -27,13 +27,32 @@ class CategoriesFragment : Fragment() {
         ) {
             override fun onOpenCollection(collection: PhotoCollection) {
                 findNavController().navigate(
-                    R.id.action_categoriesFragment_to_imagesFragment,
+                    R.id.action_categoriesFragment_to_photosFragment,
                     Bundle().apply {
                         textArg = collection.title
                     })
             }
         }
     }
+
+    private val queries = listOf(
+//            "sky,phone,wallpaper",
+//            "forest,phone,wallpaper",
+//            "ocean,phone,wallpaper",
+//            "city,phone,wallpaper",
+//            "dogs,phone,wallpaper",
+//            "cats,phone,wallpaper",
+//            "mountains,phone,wallpaper",
+//            "space,phone,wallpaper",
+//            "village,phone,wallpaper",
+//            "cyberpunk,phone,wallpaper",
+//            "retro,phone,wallpaper",
+//            "cars,phone,wallpaper",
+//            "fish,phone,wallpaper",
+//            "abstract,phone,wallpaper",
+        "neon,phone,wallpaper"
+    )
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,13 +65,10 @@ class CategoriesFragment : Fragment() {
             false
         )
 
-        val querySky = "sky,phone,wallpaper"
-        val queryForest = "forest,phone,wallpaper"
-        val queryOcean = "ocean,phone,wallpaper"
 
         val adapter = CollectionAdapter(interactionListener)
 
-        viewModel.getCollections(listOf(querySky,queryForest,queryOcean))
+        viewModel.getCollections(queries)
 
         binding.list.adapter = adapter
         viewModel.dataCategories.observe(viewLifecycleOwner) { data ->

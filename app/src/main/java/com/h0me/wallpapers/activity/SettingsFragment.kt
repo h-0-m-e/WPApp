@@ -20,7 +20,7 @@ class SettingsFragment : Fragment() {
             false
         )
 
-        binding.switchTheme.isChecked = when(AppCompatDelegate.getDefaultNightMode()) {
+        binding.switchTheme.isChecked = when (AppCompatDelegate.getDefaultNightMode()) {
             AppCompatDelegate.MODE_NIGHT_YES -> true
             else -> false
         }

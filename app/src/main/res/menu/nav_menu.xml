@@ -5,7 +5,7 @@
         android:title="@string/categories"/>
 
     <item android:id="@+id/favourite"
-        android:icon="@drawable/favorite_48"
+        android:icon="@drawable/favourite_48"
         android:title="@string/favourite" />
     <item
         android:id="@+id/downloaded"

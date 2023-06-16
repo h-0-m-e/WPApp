@@ -7,33 +7,41 @@
     <fragment
         android:id="@+id/categoriesFragment"
         android:name="com.h0me.wallpapers.activity.CategoriesFragment"
-        android:label="CategoriesFragment" >
+        android:label="@string/categories_fragment" >
         <action
-            android:id="@+id/action_categoriesFragment_to_imagesFragment"
-            app:destination="@id/imagesFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/imagesFragment"
-        android:name="com.h0me.wallpapers.activity.ImagesFragment"
-        android:label="ImagesFragment" >
-        <action
-            android:id="@+id/action_imagesFragment_to_imagePreviewFragment"
-            app:destination="@id/imagePreviewFragment" />
+            android:id="@+id/action_categoriesFragment_to_photosFragment"
+            app:destination="@id/photosFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.h0me.wallpapers.activity.SettingsFragment"
-        android:label="SettingsFragment" />
-    <fragment
-        android:id="@+id/imagePreviewFragment"
-        android:name="com.h0me.wallpapers.activity.ImagePreviewFragment"
-        android:label="ImagePreviewFragment" />
+        android:label="@string/settings_fragment" />
     <fragment
         android:id="@+id/downloadedFragment"
         android:name="com.h0me.wallpapers.activity.DownloadedFragment"
-        android:label="DownloadedFragment" />
+        android:label="@string/downloaded_fragment" >
+        <action
+            android:id="@+id/action_downloadedFragment_to_photoPreviewFragment"
+            app:destination="@id/photoPreviewFragment" />
+    </fragment>
     <fragment
         android:id="@+id/favouriteFragment"
         android:name="com.h0me.wallpapers.activity.FavouriteFragment"
-        android:label="FavouriteFragment" />
+        android:label="@string/favourite_fragment" >
+        <action
+            android:id="@+id/action_favouriteFragment_to_photoPreviewFragment"
+            app:destination="@id/photoPreviewFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/photosFragment"
+        android:name="com.h0me.wallpapers.activity.PhotosFragment"
+        android:label="@string/photos_fragment" >
+        <action
+            android:id="@+id/action_photosFragment_to_photoPreviewFragment"
+            app:destination="@id/photoPreviewFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/photoPreviewFragment"
+        android:name="com.h0me.wallpapers.activity.PhotoPreviewFragment"
+        android:label="@string/photo_preview_fragment" />
 </navigation>

@@ -10,12 +10,12 @@ import androidx.navigation.fragment.findNavController
 import com.h0me.wallpapers.R
 import com.h0me.wallpapers.activity.CategoriesFragment.Companion.textArg
 import com.h0me.wallpapers.adapter.PhotoAdapter
-import com.h0me.wallpapers.databinding.FragmentImagesBinding
+import com.h0me.wallpapers.databinding.FragmentPhotosBinding
 import com.h0me.wallpapers.listener.OnInteractionListenerImpl
 import com.h0me.wallpapers.model.Photo
 import com.h0me.wallpapers.viewmodel.AppViewModel
 
-class ImagesFragment : Fragment() {
+class PhotosFragment : Fragment() {
 
     private val viewModel: AppViewModel by viewModels(
         ownerProducer = ::requireParentFragment
@@ -23,11 +23,11 @@ class ImagesFragment : Fragment() {
 
     private val interactionListener by lazy {
         object : OnInteractionListenerImpl(
-            this@ImagesFragment.requireActivity(), viewModel
+            this@PhotosFragment.requireContext(), viewModel
         ) {
             override fun onOpenPhoto(photo: Photo) {
                 findNavController().navigate(
-                    R.id.action_imagesFragment_to_imagePreviewFragment,
+                    R.id.action_photosFragment_to_photoPreviewFragment,
                     Bundle().apply {
                         textArg = photo.url.full
                     })
@@ -41,19 +41,19 @@ class ImagesFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val binding = FragmentImagesBinding.inflate(
+        val binding = FragmentPhotosBinding.inflate(
             inflater,
             container,
             false
         )
 
-        viewModel.getPhotos(requireNotNull(requireArguments().textArg))
+        viewModel.getCollection(requireNotNull(requireArguments().textArg))
 
         val adapter = PhotoAdapter(interactionListener)
 
         binding.list.adapter = adapter
         viewModel.dataPhotos.observe(viewLifecycleOwner) { data ->
-            adapter.submitList(data.data)
+            adapter.submitList(data)
         }
 
         return binding.root

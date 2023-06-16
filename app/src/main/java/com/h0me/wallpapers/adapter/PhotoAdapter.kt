@@ -30,10 +30,6 @@ class PhotoViewHolder(
     private val onInteractionListener: OnInteractionListener
 ) : RecyclerView.ViewHolder(binding.root) {
 
-
-
-    val urlImage = "https://zamanilka.ru/wp-content/uploads/2021/02/blue-wallpaper-phone-1080x1920-20.jpg"
-
     fun bind(photo: Photo) {
         binding.apply {
             preview.load(photo.url.full)
@@ -42,9 +38,15 @@ class PhotoViewHolder(
                 onInteractionListener.onOpenPhoto(photo)
             }
 
+            favouriteButton.isChecked = photo.isFavourite
+            favouriteButton.setOnClickListener {
+                onInteractionListener.onClickFavourite(photo)
+            }
+
+            downloadButton.setOnClickListener {
+                onInteractionListener.onClickDownload(photo)
+            }
         }
-
-
     }
 }
 

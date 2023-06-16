@@ -11,9 +11,9 @@ import com.h0me.wallpapers.model.User
 
 @Entity
 data class PhotoEntity(
-    @PrimaryKey
-    val urlRegular: String,
+    @PrimaryKey val urlRegular: String,
     val urlFull: String,
+    val collection: String,
     val isFavourite: Boolean,
     val isDownloaded: Boolean
 
@@ -21,30 +21,35 @@ data class PhotoEntity(
     fun toDto() = Photo(
         isFavourite = isFavourite,
         isDownloaded = isDownloaded,
+        collection = collection,
         width = "",
         height = "",
         color = "",
         description = "",
-        url = PhotoUrl(urlFull,urlRegular),
-        user = User("","","", ProfileImage("","",""),"",""),
+        url = PhotoUrl(urlFull, urlRegular),
+        user = User("", "", "", ProfileImage("", "", ""), "", ""),
         likes = "",
         sponsorship = Sponsorship(""),
-        exif = Exif("","","","","","")
+        exif = Exif("", "", "", "", "", "")
     )
 
     companion object {
-        fun fromDto(dto: Photo, favourite: Boolean, downloaded: Boolean) =
+        fun fromDto(dto: Photo, favourite: Boolean, downloaded: Boolean, collection: String) =
             PhotoEntity(
                 urlRegular = dto.url.regular,
                 urlFull = dto.url.full,
                 isFavourite = favourite,
                 isDownloaded = downloaded,
+                collection = collection
             )
     }
 }
 
-fun List<PhotoEntity>.toDto(): List<Photo> = map(PhotoEntity::toDto)
-
-fun Photo.toEntity( photo: Photo, favourite: Boolean, downloaded: Boolean): PhotoEntity =
-    PhotoEntity.fromDto(photo, favourite,downloaded)
+fun toEntity(
+    photo: Photo,
+    favourite: Boolean,
+    downloaded: Boolean,
+    collection: String
+): PhotoEntity =
+    PhotoEntity.fromDto(photo, favourite, downloaded, collection)
 
